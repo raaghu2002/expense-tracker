@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/styles.css"> 
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-logo">RoomPro</a>
+            <ul class="navbar-menu">
+                <li><a href="/calculator" >Calculator</a></li>
+                <li><a href="/add-expense">Add Expense</a></li>
+                <li><a href="/dashboard" class="active">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="container">
+        <div class="card">
+            <h1 class="card-title">Dashboard</h1>
+            <h2>Expenses</h2>
+
+            <!-- Total Expenses and Per Member Amount -->
+            <div class="expense-summary">
+                <p>Total Expenses: $<%= totalAmount.toFixed(2) %></p>
+                <p>Each member should contribute: $<%= perMemberAmount.toFixed(2) %></p>
+            </div>
+
+            <!-- Table to display expenses -->
+            <table class="expense-table">
+                <thead>
+                    <tr>
+                        <th>Member</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Action</th> <!-- Column for the delete button -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <% expenses.forEach(expense => { %>
+                        <tr>
+                            <td><%= expense.member %></td>
+                            <td><%= expense.category %></td>
+                            <td><%= expense.amount %></td>
+                            <td><%= expense.date %></td>
+                            <td>
+                                <!-- Form for deleting an expense -->
+                                <form action="/delete-expense/<%= expense.id %>" method="POST">
+                                    <button type="submit" class="delete-btn">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+
+            <!-- Remaining Amount for Each Member -->
+            <h3>Remaining Amount Each Member Should Pay</h3>
+            <table class="expense-table">
+                <thead>
+                    <tr>
+                        <th>Member</th>
+                        <th>Amount Spent</th>
+                        <th>Balance</th> <!-- This will show either how much they need to pay or receive -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <% membersBalance.forEach(member => { %>
+                        <tr>
+                            <td><%= member.name %></td>
+                            <td>$<%= member.spent.toFixed(2) %></td>
+                            <td>
+                                <% if (member.balance > 0) { %>
+                                    <span style="color: green;">$<%= member.balance %> to receive</span>
+                                <% } else { %>
+                                    <span style="color: red;">$<%= Math.abs(member.balance) %> to pay</span>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 RoomPro. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

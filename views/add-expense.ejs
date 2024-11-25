@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Expense</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Link to the external CSS -->
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-logo">RoomPro</a>
+            <ul class="navbar-menu">
+                
+                <li><a href="/calculator" >Calculator</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/add-expense" class="active">Add Expense</a></li>
+                
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="container">
+        <div class="card">
+            <h1 class="card-title">Add an Expense</h1>
+            <form action="/add-expense" method="POST">
+                <label for="date">Date:</label>
+                <input type="date" name="date" required><br>
+
+                <label for="category">Category:</label>
+                <select name="category" required>
+                    <option value="Groceries">Groceries</option>
+                    <option value="Chats">Chats</option>
+                    <option value="Petrol">Petrol</option>
+                    <option value="Others">Others</option>
+                </select><br>
+
+                <label for="amount">Amount:</label>
+                <input type="number" name="amount" required><br>
+
+                <label for="member">Member:</label>
+                <select name="member" required>
+                    <% members.forEach(member => { %>
+                        <option value="<%= member.name %>"><%= member.name %></option>
+                    <% }); %>
+                </select><br>
+
+                <button type="submit" class="submit-btn" >Add Expense</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 RoomPro. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
