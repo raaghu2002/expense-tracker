@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Expense</title>
+    <link rel="stylesheet" href="/styleexpe.css"> <!-- Link to the external CSS -->
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-logo">RoomPro</a>
+            <ul class="navbar-menu">
+                <li><a href="/calculator">Calculator</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/add-expense" class="active">Add Expense</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="container">
+        <div class="card">
+            <h1 class="card-title">Add an Expense</h1>
+            <form action="/add-expense" method="POST">
+                <!-- Date -->
+                <label for="date">Date:</label>
+                <input type="date" name="date" required><br>
+
+                <!-- Category -->
+                <label for="category">Category:</label>
+                <input type="text" name="category" placeholder="Enter category" required><br>
+
+                <!-- Amount -->
+                <label for="amount">Amount:</label>
+                <input type="number" name="amount" required><br>
+
+                <!-- Who Paid -->
+                <label for="paidBy">Who Paid:</label>
+                <select name="paidBy" required>
+                    <% members.forEach(member => { %>
+                        <option value="<%= member %>"><%= member %></option>
+                    <% }) %>
+                </select><br>
+
+                <!-- Members (Checkboxes for multiple selection) -->
+                <label for="members">Members Sharing:</label><br>
+                <div>
+                    <% members.forEach(member => { %>
+                        <input type="checkbox" name="members" value="<%= member %>" id="<%= member %>">
+                        <label for="<%= member %>"><%= member %></label><br>
+                    <% }) %>
+                </div><br>
+
+                <!-- Submit -->
+                <button type="submit" class="submit-btn">Add Expense</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 RoomPro. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

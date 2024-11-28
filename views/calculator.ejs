@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="/stylecal.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-logo">RoomPro</a>
+            <ul class="navbar-menu">
+                <li><a href="/add-expense">Add Expense</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/calculator" class="active">Calculator</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="container">
+        <div class="card">
+            <h1 class="card-title">Calculator</h1>
+            <div class="calculator">
+                <form id="calcForm">
+                    <input type="text" id="display" class="display" disabled />
+
+                    <div class="buttons">
+                        <button type="button" class="btn" onclick="appendToDisplay('7')">7</button>
+                        <button type="button" class="btn" onclick="appendToDisplay('8')">8</button>
+                        <button type="button" class="btn" onclick="appendToDisplay('9')">9</button>
+                        <button type="button" class="btn" onclick="appendToDisplay('/')">/</button>
+
+                        <button type="button" class="btn" onclick="appendToDisplay('4')">4</button>
+                        <button type="button" class="btn" onclick="appendToDisplay('5')">5</button>
+                        <button type="button" class="btn" onclick="appendToDisplay('6')">6</button>
+                        <button type="button" class="btn" onclick="appendToDisplay('*')">*</button>
+
+                        <button type="button" class="btn" onclick="appendToDisplay('1')">1</button>
+                        <button type="button" class="btn" onclick="appendToDisplay('2')">2</button>
+                        <button type="button" class="btn" onclick="appendToDisplay('3')">3</button>
+                        <button type="button" class="btn" onclick="appendToDisplay('-')">-</button>
+
+                        <button type="button" class="btn" onclick="appendToDisplay('0')">0</button>
+                        <button type="button" class="btn" onclick="clearDisplay()">C</button>
+                        <button type="button" class="btn" onclick="calculateResult()">=</button>
+                        <button type="button" class="btn" onclick="appendToDisplay('+')">+</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 RoomPro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Function to append digits and operators to the display
+        function appendToDisplay(value) {
+            document.getElementById('display').value += value;
+        }
+
+        // Function to clear the display
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+
+        // Function to calculate the result
+        function calculateResult() {
+            try {
+                const result = eval(document.getElementById('display').value);
+                document.getElementById('display').value = result;
+            } catch (e) {
+                document.getElementById('display').value = 'Error';
+            }
+        }
+
+        // Listen for keypresses and map them to calculator operations
+        document.addEventListener('keydown', function(event) {
+            const key = event.key;
+
+            // Ignore non-numeric and non-operator keys except for backspace, enter, and escape
+            if (key >= '0' && key <= '9' || key === '+' || key === '-' || key === '*' || key === '/' || key === '.') {
+                appendToDisplay(key);
+            }
+
+            // Handle the 'Enter' key to calculate result
+            if (key === 'Enter') {
+                calculateResult();
+            }
+
+            // Handle the 'Backspace' key to clear the last character
+            if (key === 'Backspace') {
+                const currentDisplay = document.getElementById('display').value;
+                document.getElementById('display').value = currentDisplay.slice(0, -1);
+            }
+
+            // Handle the 'Escape' key to clear the display
+            if (key === 'Escape') {
+                clearDisplay();
+            }
+        });
+
+        // Hide the navbar and footer when scrolling down
+        let lastScrollTop = 0;
+        const footer = document.querySelector('footer');
+        
+        window.addEventListener('scroll', function() {
+            let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        
+            // Check if scrolling down
+            if (currentScroll > lastScrollTop) {
+                footer.classList.add('hidden');  // Hide footer when scrolling down
+            } else {
+                footer.classList.remove('hidden');  // Show footer when scrolling up
+            }
+        
+            // Update last scroll position
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Prevent negative values
+        });
+        
+        
+        
+
+    </script>
+</body>
+</html>
