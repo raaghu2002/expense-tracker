@@ -37,55 +37,60 @@ app.get('/', (req, res) => {
 });
 
 // Dashboard page (view-only)
-app.get('/dashboard-user', (req, res) => {
-    // Fetch all expenses from the database
-    db.all("SELECT * FROM expenses", (err, rows) => {
-        if (err) {
-            console.error('Database Fetch Error:', err.message);
-            return res.status(500).send({ error: 'Failed to fetch expenses' });
-        } else {
-            const fixedMembers = ['Raaghu', 'Sachin', 'Nithin', 'Likith', 'Ankith'];
+const axios = require('axios'); // Add this at the top
 
-            const totalAmount = rows.reduce((sum, expense) => sum + parseFloat(expense.amount || 0), 0);
+// Dashboard page (view-only)
+app.get('/dashboard-user', async (req, res) => {
+    try {
+        // Fetch expenses from App.js
+        const response = await axios.get('http://localhost:3000/api/expenses'); // Replace with deployed URL
+        const rows = response.data; // Expenses data
 
-            const membersBalance = fixedMembers.map(member => {
-                const totalSpentByMember = rows
-                    .filter(expense => expense.paid_by === member)
-                    .reduce((sum, expense) => sum + parseFloat(expense.amount || 0), 0);
+        const fixedMembers = ['Raaghu', 'Sachin', 'Nithin', 'Likith', 'Ankith'];
 
-                let balance = 0;
+        const totalAmount = rows.reduce((sum, expense) => sum + parseFloat(expense.amount || 0), 0);
 
-                rows.forEach(expense => {
-                    const includedMembers = expense.included_members.split(', ');
-                    const perMemberAmount = expense.amount / includedMembers.length;
+        const membersBalance = fixedMembers.map(member => {
+            const totalSpentByMember = rows
+                .filter(expense => expense.paid_by === member)
+                .reduce((sum, expense) => sum + parseFloat(expense.amount || 0), 0);
 
-                    if (includedMembers.includes(member)) {
-                        balance += perMemberAmount;
-                    }
-                });
+            let balance = 0;
 
-                const finalBalance = totalSpentByMember - balance;
+            rows.forEach(expense => {
+                const includedMembers = expense.included_members.split(', ');
+                const perMemberAmount = expense.amount / includedMembers.length;
 
-                return {
-                    name: member,
-                    spent: totalSpentByMember.toFixed(2),
-                    balance: finalBalance.toFixed(2),
-                };
+                if (includedMembers.includes(member)) {
+                    balance += perMemberAmount;
+                }
             });
 
-            const positiveBalances = membersBalance.filter(member => parseFloat(member.balance) > 0);
-            const negativeBalances = membersBalance.filter(member => parseFloat(member.balance) < 0);
+            const finalBalance = totalSpentByMember - balance;
 
-            res.render('dashboard-user', {
-                expenses: rows,
-                membersBalance: membersBalance,
-                totalAmount: totalAmount.toFixed(2),
-                positiveBalances: positiveBalances,
-                negativeBalances: negativeBalances,
-            });
-        }
-    });
+            return {
+                name: member,
+                spent: totalSpentByMember.toFixed(2),
+                balance: finalBalance.toFixed(2),
+            };
+        });
+
+        const positiveBalances = membersBalance.filter(member => parseFloat(member.balance) > 0);
+        const negativeBalances = membersBalance.filter(member => parseFloat(member.balance) < 0);
+
+        res.render('dashboard-user', {
+            expenses: rows,
+            membersBalance: membersBalance,
+            totalAmount: totalAmount.toFixed(2),
+            positiveBalances: positiveBalances,
+            negativeBalances: negativeBalances,
+        });
+    } catch (error) {
+        console.error('API Fetch Error:', error.message);
+        res.status(500).send({ error: 'Failed to fetch data from the main server' });
+    }
 });
+
 
 const port = process.env.PORT || 4000;
 // Start the user-specific server
