@@ -42,6 +42,7 @@ app.get('/', (req, res) => {
 });
 
 
+
 // Calculator page
 app.get('/calculator', (req, res) => {
     res.render('calculator');
@@ -51,18 +52,6 @@ app.get('/calculator', (req, res) => {
 app.get('/add-expense', (req, res) => {
     res.render('add-expense', { members: fixedMembers });  // Pass fixed members to EJS
 });
-
-// API endpoint to fetch all expenses
-app.get('/api/expenses', (req, res) => {
-    db.all("SELECT * FROM expenses", (err, rows) => {
-        if (err) {
-            console.error('Database Fetch Error:', err.message);
-            return res.status(500).json({ error: 'Failed to fetch expenses' });
-        }
-        res.json(rows); // Send expenses data as JSON
-    });
-});
-
 
 // Handle form submission and add a new expense
 // Handle form submission and add a new expense
