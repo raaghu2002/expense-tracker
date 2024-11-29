@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #ffafbd, #ffc3a0); /* Warm, friendly gradient */
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    
+        .login-container {
+            background: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+    
+        .login-container h1 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #ff6f61;
+            font-weight: bold;
+        }
+    
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+    
+        .form-group label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+    
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            color: #555;
+            background: #f9f9f9;
+        }
+    
+        .form-group input:focus {
+            outline: none;
+            border: 2px solid #ff6f61;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(255, 111, 97, 0.3);
+        }
+    
+        .login-btn {
+            background-color: #ff6f61;
+            color: #ffffff;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+    
+        .login-btn:hover {
+            background-color: #e35d54;
+            box-shadow: 0 4px 12px rgba(255, 111, 97, 0.4);
+        }
+    
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 15px;
+            display: none;
+        }
+    
+        /* Extra touch for the friend zone theme */
+        .login-container::before {
+            content: '👋 Welcome to Friend Zone!';
+            display: block;
+            font-size: 16px;
+            color: #ff6f61;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+    
+        .login-container:hover {
+            transform: scale(1.02);
+            transition: transform 0.3s ease;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form id="loginForm" method="POST" action="/login">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div style="position: relative;">
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <span id="togglePassword" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer; font-size: 14px; color: #ff6f61;">Show</span>
+                </div>
+            </div>
+            
+            <p class="error" id="error" style="display: none;">Invalid username or password.</p>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        form.addEventListener('submit', function (e) {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            // Check if both username and password are "friend"
+            if (username !== "friend" || password !== "friend") {
+                e.preventDefault(); // Prevent form submission
+                const error = document.getElementById('error');
+                error.style.display = 'block';
+                error.textContent = "Invalid username or password.";
+            }
+        });
+
+        
+            const passwordField = document.getElementById('password');
+            const togglePassword = document.getElementById('togglePassword');
+        
+            togglePassword.addEventListener('click', function () {
+                // Toggle the type attribute
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+        
+                // Update the toggle text
+                this.textContent = type === 'password' ? 'Show' : 'Hide';
+            });
+        
+        
+    </script>
+</body>
+</html>
