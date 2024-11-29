@@ -17,10 +17,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Fixed members
 const fixedMembers = ["Raaghu", "Likith", "Sachin", "Ankith", "Nithin"];
 
-// Home page
-app.get('/', (req, res) => {
-    res.render('index');
+// Login POST route
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    if (username === 'friend' && password === 'friend') {
+        res.redirect('/index'); // Redirect to index.ejs
+    } else {
+        res.send('<h1>Invalid username or password!</h1><a href="/login">Go back</a>');
+    }
 });
+
+// Route to render index.ejs
+app.get('/index', (req, res) => {
+    res.render('index'); // Make sure index.ejs exists in the views folder
+});
+
+// Route to render login.ejs
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+app.get('/', (req, res) => {
+    res.redirect('/login');
+});
+
 
 // Calculator page
 app.get('/calculator', (req, res) => {
