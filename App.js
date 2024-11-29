@@ -21,7 +21,7 @@ const fixedMembers = ["Raaghu", "Likith", "Sachin", "Ankith", "Nithin"];
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
-    if (username === 'friend' && password === 'friend') {
+    if (username === 'friends' && password === 'friends') {
         res.redirect('/index'); // Redirect to index.ejs
     } else {
         res.send('<h1>Invalid username or password!</h1><a href="/login">Go back</a>');
