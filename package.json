@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "USER_PORT=4000 concurrently \"node App.js\" \"node userserver.js\"",
-    "dev": "USER_PORT=4000 concurrently \"node App.js\" \"node userserver.js\""
-
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +15,6 @@
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
-    "sqlite3": "^5.1.7",
-    "concurrently": "^8.2.0"
+    "sqlite3": "^5.1.7"
   }
 }
