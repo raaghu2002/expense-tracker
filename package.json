@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "concurrently \"node app.js\" \"node userserver.js\"",
+    "dev": "concurrently \"nodemon app.js\" \"nodemon userserver.js\""
   },
   "keywords": [],
   "author": "",
@@ -15,6 +15,7 @@
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "concurrently": "^8.2.0"
   }
 }
