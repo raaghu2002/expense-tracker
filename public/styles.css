@@ -49,6 +49,8 @@ a {
     border-radius: 5px;
     font-weight: 600;
     transition: background-color 0.3s, color 0.3s;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 a:hover {
